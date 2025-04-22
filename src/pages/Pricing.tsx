@@ -1,4 +1,5 @@
-
+import React from "react";
+import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import { Navbar } from "../components/navbar";
 import { Button } from "../components/ui/button";
@@ -28,6 +29,9 @@ export default function Pricing() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>Pricing - FileShare</title>
+      </Helmet>
       <Navbar />
       
       <main className="flex-grow py-20">

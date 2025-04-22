@@ -1,4 +1,5 @@
-
+import React from "react";
+import { Helmet } from "react-helmet-async";
 import { Link } from "react-router-dom";
 import { Navbar } from "../components/navbar";
 import { Button } from "../components/ui/button";
@@ -9,6 +10,9 @@ export default function Home() {
 
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>Home - FileShare</title>
+      </Helmet>
       <Navbar />
       
       <main className="flex-grow">

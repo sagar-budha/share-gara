@@ -1,5 +1,5 @@
-
-import { useState } from "react";
+import React, { useState } from "react";
+import { Helmet } from "react-helmet-async";
 import { Link, Navigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { Navbar } from "../components/navbar";
@@ -47,6 +47,9 @@ export default function Register() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>Register - FileShare</title>
+      </Helmet>
       <Navbar />
       
       <div className="flex flex-col justify-center py-12 sm:px-6 lg:px-8 flex-grow">

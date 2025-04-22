@@ -1,5 +1,5 @@
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { Navigate } from "react-router-dom";
 import { Navbar } from "../components/navbar";
 import { FileUploader } from "../components/file-uploader";
@@ -54,6 +54,9 @@ export default function Dashboard() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>Dashboard - FileShare</title>
+      </Helmet>
       <Navbar />
       
       <main className="flex-grow py-10">

@@ -1,6 +1,6 @@
-
+import React, { useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useLocation, Link } from "react-router-dom";
-import { useEffect } from "react";
 import { Button } from "../components/ui/button";
 
 const NotFound = () => {
@@ -15,6 +15,9 @@ const NotFound = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <Helmet>
+        <title>404 Not Found - FileShare</title>
+      </Helmet>
       <div className="text-center">
         <h1 className="text-6xl font-extrabold text-gray-900">404</h1>
         <p className="mt-4 text-xl text-gray-600">Oops! Page not found</p>

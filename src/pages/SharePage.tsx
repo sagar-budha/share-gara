@@ -1,5 +1,5 @@
-
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
+import { Helmet } from "react-helmet-async";
 import { useParams, Link } from "react-router-dom";
 import { useFiles } from "../context/FilesContext";
 import { Navbar } from "../components/navbar";
@@ -16,11 +16,9 @@ export default function SharePage() {
   } | null>(null);
   
   useEffect(() => {
-    // Find the file with matching shareId
     const file = files.find(f => f.shareId === shareId);
     
     if (file) {
-      // Check if the share link is expired
       const expired = file.expiresAt ? new Date() > new Date(file.expiresAt) : false;
       setSharedFile({ file, expired });
     } else {
@@ -31,6 +29,9 @@ export default function SharePage() {
   if (!shareId) {
     return (
       <div className="min-h-screen flex flex-col">
+        <Helmet>
+          <title>Invalid Share Link - FileShare</title>
+        </Helmet>
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
@@ -48,6 +49,9 @@ export default function SharePage() {
   if (!sharedFile) {
     return (
       <div className="min-h-screen flex flex-col">
+        <Helmet>
+          <title>File Not Found - FileShare</title>
+        </Helmet>
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
@@ -65,6 +69,9 @@ export default function SharePage() {
   if (sharedFile.expired) {
     return (
       <div className="min-h-screen flex flex-col">
+        <Helmet>
+          <title>Link Expired - FileShare</title>
+        </Helmet>
         <Navbar />
         <div className="flex-grow flex items-center justify-center">
           <div className="text-center">
@@ -81,8 +88,10 @@ export default function SharePage() {
   
   return (
     <div className="min-h-screen flex flex-col">
+      <Helmet>
+        <title>{sharedFile.file.name} - FileShare</title>
+      </Helmet>
       <Navbar />
-      
       <main className="flex-grow flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
         <div className="max-w-md w-full bg-white rounded-xl shadow-lg overflow-hidden">
           <div className="px-4 py-5 sm:p-6">
