@@ -3,7 +3,7 @@ import { useAuth } from "@/context/AuthContext";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Helmet } from "react-helmet-async"; // We'll add this dependency
+import { Helmet } from "react-helmet-async";
 
 const Profile = () => {
   const { user } = useAuth();
