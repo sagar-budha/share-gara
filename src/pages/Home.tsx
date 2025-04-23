@@ -187,7 +187,7 @@ export default function Home() {
             </div>
           </nav>
           <p className="mt-8 text-center text-gray-500">
-            &copy; 2023 FileShare. All rights reserved.
+            &copy; 2025 FileShare. All rights reserved.
           </p>
         </div>
       </footer>
