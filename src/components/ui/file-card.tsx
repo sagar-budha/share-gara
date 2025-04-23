@@ -1,7 +1,7 @@
 
 import React from "react";
 import { formatDistanceToNow } from "date-fns";
-import { File as FileIcon, Share } from "lucide-react";
+import { File as FileIcon, Share, Trash } from "lucide-react";
 import { File } from "../../types";
 import { bytesToSize } from "../../lib/utils";
 import { 
@@ -88,6 +88,15 @@ export function FileCard({ file, onShare, onDelete, view }: FileCardProps) {
               Shared
             </span>
           )}
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => onDelete(file.id)}
+            className="p-2"
+            aria-label="Delete file"
+          >
+            <Trash className="h-4 w-4" />
+          </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="ghost" size="sm">
@@ -99,9 +108,7 @@ export function FileCard({ file, onShare, onDelete, view }: FileCardProps) {
               <DropdownMenuItem onClick={() => setShowShareDialog(true)}>
                 Create Share Link
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDelete(file.id)}>
-                Delete
-              </DropdownMenuItem>
+              {/* Delete is now a direct button */}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>
@@ -174,21 +181,30 @@ export function FileCard({ file, onShare, onDelete, view }: FileCardProps) {
               <p className="text-xs text-gray-500">{bytesToSize(file.size)}</p>
             </div>
           </div>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
-                <Share className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => setShowShareDialog(true)}>
-                Create Share Link
-              </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onDelete(file.id)}>
-                Delete
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex gap-1">
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => onDelete(file.id)}
+              className="h-8 w-8 p-0"
+              aria-label="Delete file"
+            >
+              <Trash className="h-4 w-4" />
+            </Button>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+                  <Share className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => setShowShareDialog(true)}>
+                  Create Share Link
+                </DropdownMenuItem>
+                {/* Delete is now a direct button */}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
         
         <div className="mt-auto">
