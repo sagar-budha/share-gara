@@ -11,7 +11,7 @@ export default function Home() {
   return (
     <div className="min-h-screen flex flex-col">
       <Helmet>
-        <title>Home - FileShare</title>
+        <title>Home - Share Gara</title>
       </Helmet>
       <Navbar />
       
@@ -187,7 +187,7 @@ export default function Home() {
             </div>
           </nav>
           <p className="mt-8 text-center text-gray-500">
-            &copy; 2025 FileShare. All rights reserved.
+            &copy; 2025 Share Gara. All rights reserved.
           </p>
         </div>
       </footer>
