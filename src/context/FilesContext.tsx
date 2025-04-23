@@ -21,7 +21,7 @@ interface FilesContextType {
 
 const FilesContext = createContext<FilesContextType | undefined>(undefined);
 
-// Mock initial files
+// Mock initial files with working URLs
 const mockFiles: File[] = [
   {
     id: "1",
@@ -29,7 +29,7 @@ const mockFiles: File[] = [
     name: "document.pdf",
     size: 2500000,
     type: "application/pdf",
-    url: "#",
+    url: "https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf",
     createdAt: new Date("2023-01-10"),
     shared: false
   },
@@ -39,7 +39,7 @@ const mockFiles: File[] = [
     name: "image.jpg",
     size: 1500000,
     type: "image/jpeg",
-    url: "#",
+    url: "https://via.placeholder.com/300",
     createdAt: new Date("2023-01-15"),
     shared: false
   }
@@ -56,6 +56,7 @@ export const FilesProvider = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     // Load mock files if user is logged in
     if (user) {
+      console.log("Loading files for user:", user.id);
       setFiles(mockFiles.filter(file => file.userId === user.id));
     } else {
       setFiles([]);
@@ -100,34 +101,49 @@ export const FilesProvider = ({ children }: { children: React.ReactNode }) => {
       });
     }, 300);
 
-    // Simulate upload delay
-    await new Promise(resolve => setTimeout(resolve, 3000));
-    
-    clearInterval(interval);
-    setUploadProgress(100);
+    try {
+      // Simulate upload delay
+      await new Promise(resolve => setTimeout(resolve, 3000));
+      
+      clearInterval(interval);
+      setUploadProgress(100);
 
-    // Create new file object
-    const newFile: File = {
-      id: `${files.length + 1}`,
-      userId: user.id,
-      name: file.name,
-      size: file.size,
-      type: file.type,
-      url: URL.createObjectURL(file),
-      createdAt: new Date(),
-      shared: false
-    };
+      // Create object URL for the file
+      const fileURL = URL.createObjectURL(file);
+      console.log("Created URL for file:", fileURL);
 
-    setFiles(prev => [...prev, newFile]);
-    setUploading(false);
-    
-    toast({
-      title: "File Uploaded",
-      description: `${file.name} has been uploaded successfully.`
-    });
+      // Create new file object
+      const newFile: File = {
+        id: `file_${Date.now()}`, // Ensure unique ID
+        userId: user.id,
+        name: file.name,
+        size: file.size,
+        type: file.type,
+        url: fileURL,
+        createdAt: new Date(),
+        shared: false
+      };
+
+      console.log("Adding new file to state:", newFile);
+      setFiles(prev => [...prev, newFile]);
+      
+      toast({
+        title: "File Uploaded",
+        description: `${file.name} has been uploaded successfully.`
+      });
+    } catch (error) {
+      console.error("Upload error:", error);
+      toast({
+        title: "Upload Failed",
+        description: "There was an error processing your file. Please try again."
+      });
+    } finally {
+      setUploading(false);
+    }
   };
 
   const deleteFile = (id: string) => {
+    console.log("Deleting file with ID:", id);
     setFiles(prev => prev.filter(file => file.id !== id));
     
     toast({
@@ -138,7 +154,10 @@ export const FilesProvider = ({ children }: { children: React.ReactNode }) => {
 
   const shareFile = async (id: string, expiresInDays = 7): Promise<string> => {
     const file = files.find(f => f.id === id);
-    if (!file) throw new Error("File not found");
+    if (!file) {
+      console.error("File not found:", id);
+      throw new Error("File not found");
+    }
 
     // Generate random share ID
     const shareId = Math.random().toString(36).substring(2, 15);
@@ -146,6 +165,8 @@ export const FilesProvider = ({ children }: { children: React.ReactNode }) => {
     // Calculate expiration date
     const expiresAt = new Date();
     expiresAt.setDate(expiresAt.getDate() + expiresInDays);
+    
+    console.log("Sharing file:", file.name, "with ID:", shareId, "expires:", expiresAt);
     
     // Update file with share info
     setFiles(prev => 

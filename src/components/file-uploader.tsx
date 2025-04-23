@@ -46,6 +46,8 @@ export function FileUploader() {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       await processFile(file);
+      // Reset file input so the same file can be uploaded again if needed
+      e.target.value = '';
     }
   };
   
@@ -60,8 +62,10 @@ export function FileUploader() {
     }
     
     try {
+      console.log("Processing file:", file.name, file.type, file.size);
       await uploadFile(file);
     } catch (error) {
+      console.error("File upload error:", error);
       toast({
         title: "Upload Failed",
         description: "There was an error uploading your file. Please try again.",
@@ -79,7 +83,9 @@ export function FileUploader() {
   return (
     <div className="w-full mb-8">
       <div
-        className={`drag-drop-area ${dragActive ? "active" : ""}`}
+        className={`border-2 border-dashed border-gray-300 rounded-lg p-8 text-center ${
+          dragActive ? "border-primary bg-primary/5" : ""
+        }`}
         onDragEnter={handleDrag}
         onDragOver={handleDrag}
         onDragLeave={handleDrag}
